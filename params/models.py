@@ -1,0 +1,102 @@
+from easydict import EasyDict as ED
+from copy import deepcopy as dcopy
+
+
+model_arch_config = ED()
+
+
+model_arch_config.REFID = ED()
+model_arch_config.REFID.define_model = ED()
+model_arch_config.REFID.define_model.type = 'FinalBidirectionAttenfusion'  # UNetPSDecoderRecurrent #UNetDecoderRecurrent
+model_arch_config.REFID.define_model.img_chn = 6  # 6 for two image, 26 for image and voxel
+model_arch_config.REFID.define_model.ev_chn = 2
+model_arch_config.REFID.define_model.num_encoders = 3
+model_arch_config.REFID.define_model.base_num_channels = 32
+
+model_arch_config.REFID.define_model.out_chn = 3
+# recurrent_block_type: 'simpleconvThendown' # 'convlstm' or 'convgru' or 'simpleconv' or 'simpleconvThendown'
+model_arch_config.REFID.define_model.num_block = 1  # num_block of resblock in the bottleneck of unet
+model_arch_config.REFID.define_model.num_residual_blocks = 2
+model_arch_config.REFID.train_config_dataloader = 'loader_REFID'
+model_arch_config.REFID.val_config_dataloader = 'loader_REFID'
+
+model_arch_config.Expv2 = ED()
+model_arch_config.Expv2.define_model = ED()
+model_arch_config.Expv2.define_model.type = 'FinalBidirectionAttenfusion'  # UNetPSDecoderRecurrent #UNetDecoderRecurrent
+model_arch_config.Expv2.define_model.img_chn = 6  # 6 for two image, 26 for image and voxel
+model_arch_config.Expv2.define_model.ev_chn = 2
+model_arch_config.Expv2.define_model.num_encoders = 3
+model_arch_config.Expv2.define_model.base_num_channels = 32
+model_arch_config.Expv2.define_model.out_chn = 3
+# recurrent_block_type: 'simpleconvThendown' # 'convlstm' or 'convgru' or 'simpleconv' or 'simpleconvThendown'
+model_arch_config.Expv2.define_model.num_block = 1  # num_block of resblock in the bottleneck of unet
+model_arch_config.Expv2.define_model.num_residual_blocks = 2
+model_arch_config.Expv2.train_config_dataloader = 'loader_REFID'
+model_arch_config.Expv2.val_config_dataloader = 'loader_REFID'
+
+model_arch_config.Expv2_REFID_decoder = ED()
+model_arch_config.Expv2_REFID_decoder.define_model = ED()
+model_arch_config.Expv2_REFID_decoder.define_model.type = 'FinalBidirectionAttenfusion'  # UNetPSDecoderRecurrent #UNetDecoderRecurrent
+model_arch_config.Expv2_REFID_decoder.define_model.img_chn = 6  # 6 for two image, 26 for image and voxel
+model_arch_config.Expv2_REFID_decoder.define_model.ev_chn = 2
+model_arch_config.Expv2_REFID_decoder.define_model.num_encoders = 3
+model_arch_config.Expv2_REFID_decoder.define_model.base_num_channels = 32
+model_arch_config.Expv2_REFID_decoder.define_model.out_chn = 3
+# recurrent_block_type: 'simpleconvThendown' # 'convlstm' or 'convgru' or 'simpleconv' or 'simpleconvThendown'
+model_arch_config.Expv2_REFID_decoder.define_model.num_block = 1  # num_block of resblock in the bottleneck of unet
+model_arch_config.Expv2_REFID_decoder.define_model.num_residual_blocks = 2
+model_arch_config.Expv2_REFID_decoder.train_config_dataloader = 'loader_REFID'
+model_arch_config.Expv2_REFID_decoder.val_config_dataloader = 'loader_REFID'
+
+model_arch_config.Expv2_withReLUBlocks = dcopy(model_arch_config.Expv2)
+model_arch_config.Expv2_REFID_flowdecoder = dcopy(model_arch_config.Expv2)
+model_arch_config.Expv2_REFID_flowdecoder.define_model.num_encoders = 2
+model_arch_config.Expv2_REFID_decoder_asInit = dcopy(model_arch_config.Expv2)
+model_arch_config.Expv2_REFID_decoder_asInit.define_model.type = 'BidirectionalWithFlow'
+
+
+model_arch_config.Expv2_REFID_FB = dcopy(model_arch_config.Expv2_REFID_flowdecoder)
+# model_arch_config.Expv2
+model_arch_config.Expv2_REFID_FB_withencoderrefine = dcopy(model_arch_config.Expv2_REFID_flowdecoder)
+model_arch_config.Expv2_REFID_flowdecoder_withrefine = dcopy(model_arch_config.Expv2_REFID_flowdecoder)
+model_arch_config.Expv2_REFID_FBfwarp = dcopy(model_arch_config.Expv2_REFID_flowdecoder)
+model_arch_config.Expv3 = dcopy(model_arch_config.Expv2_REFID_flowdecoder)
+model_arch_config.Expv3.define_model.base_channel = 32
+model_arch_config.Expv3.define_model.echannel = 125
+model_arch_config.Expv3.define_model.interp_ratio = 16
+model_arch_config.Expv3.define_model.pos_e = 0.2
+model_arch_config.Expv3.define_model.neg_e = 0.2
+model_arch_config.Expv3.train_config_dataloader = 'loader_ERFNetv0'
+model_arch_config.Expv3.val_config_dataloader = 'loader_ERFNetv0'
+model_arch_config.Expv2_REFID_FBquick = dcopy(model_arch_config.Expv2_REFID_flowdecoder)
+model_arch_config.Expv2_REFID_FB_maskcorrect = dcopy(model_arch_config.Expv2_REFID_flowdecoder)
+
+model_arch_config.Expv3_FBwithrefine = dcopy(model_arch_config.Expv3)
+model_arch_config.Expv3_FB = dcopy(model_arch_config.Expv3)
+model_arch_config.Expv4_FB = dcopy(model_arch_config.Expv3)
+model_arch_config.Expv2_REFID_FB_withencoderrefine_maskcorrect = dcopy(model_arch_config.Expv2_REFID_FB)
+model_arch_config.Expv2_REFID_FBquick_newEncoder = dcopy(model_arch_config.Expv2_REFID_FB)
+model_arch_config.Expv2_REFID_FBquick_newEncoder.train_config_dataloader = 'loader_ERFNetv0'
+model_arch_config.Expv2_REFID_FBquick_newEncoder.val_config_dataloader = 'loader_ERFNetv0'
+
+
+# model_arch_config.Expv4_FB = dcopy(model_arch_config.Expv3)
+model_arch_config.Expv4_FB_direct = dcopy(model_arch_config.Expv3)
+model_arch_config.Expv4_withlargeConv = dcopy(model_arch_config.Expv3)
+model_arch_config.Expv5 = dcopy(model_arch_config.Expv3)
+model_arch_config.Expv4_withlargeConv_nmask = dcopy(model_arch_config.Expv3)
+model_arch_config.Expv6 = dcopy(model_arch_config.Expv3)
+model_arch_config.Expv7 = dcopy(model_arch_config.Expv3)
+model_arch_config.Expv7_dataprop = dcopy(model_arch_config.Expv7)
+model_arch_config.Expv7_datafuse = dcopy(model_arch_config.Expv7)
+model_arch_config.Expv7_datafuseFeat = dcopy(model_arch_config.Expv7)
+model_arch_config.Expv7_datafuseFeat_large = dcopy(model_arch_config.Expv7)
+model_arch_config.Expv7_datafuseFeat_onlyEvents = dcopy(model_arch_config.Expv7)
+model_arch_config.Expv7_datafuseFeat_direct = dcopy(model_arch_config.Expv7)
+
+model_arch_config.Expv8_large = dcopy(model_arch_config.Expv7)
+model_arch_config.Expv8_large.define_model.num_decoder = 8
+model_arch_config.Expv8_large.train_config_dataloader = 'loader_ERFNetv0Mix'
+model_arch_config.Expv8_large.val_config_dataloader = 'loader_ERFNetv0Mix'
+
+
